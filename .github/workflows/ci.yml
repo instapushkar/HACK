@@ -1,0 +1,53 @@
+name: .NET CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: zricethezav/gitleaks-action@v2
+        with:
+          config-path: .gitleaks.toml
+
+  build:
+    needs: security-scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore ./src/VulnerableApi/VulnerableApi.csproj
+
+      - name: Build
+        run: dotnet build ./src/VulnerableApi/VulnerableApi.csproj --configuration Release --no-restore
+
+      - name: Publish
+        run: dotnet publish ./src/VulnerableApi/VulnerableApi.csproj -c Release -o ./publish
+
+      - name: Build Docker image
+        run: docker build -t vulnerable-api:latest .
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: vulnerable-api:latest
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'

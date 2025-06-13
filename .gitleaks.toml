@@ -1,0 +1,30 @@
+[allowlist]
+description = "Allowlist file for Gitleaks"
+paths = [
+    '''\.git/.*''',
+    '''\.github/.*''',
+]
+
+[[rules]]
+id = "azure-storage-key"
+description = "Azure Storage Account Key"
+regex = '''Eby8vdM02xNOcqFlqLfF82=='''
+tags = ["key", "Azure"]
+
+[[rules]]
+id = "generic-api-key"
+description = "Generic API Key"
+regex = '''(?i)(api[_-]?key|apikey|secret)['"]?\s*[:=]\s*['"]?[a-zA-Z0-9]{32,}['"]?'''
+tags = ["key", "API"]
+
+[[rules]]
+id = "aws-access-key"
+description = "AWS Access Key"
+regex = '''AKIA[0-9A-Z]{16}'''
+tags = ["key", "AWS"]
+
+[[rules]]
+id = "github-token"
+description = "GitHub Token"
+regex = '''gh[ps]_[a-zA-Z0-9]{36}'''
+tags = ["key", "GitHub"] 
