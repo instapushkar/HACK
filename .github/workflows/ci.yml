@@ -31,13 +31,13 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Restore dependencies
-        run: dotnet restore ./src/VulnerableApi/VulnerableApi.csproj
+        run: dotnet restore ./VulnerableApi.csproj
 
       - name: Build
-        run: dotnet build ./src/VulnerableApi/VulnerableApi.csproj --configuration Release --no-restore
+        run: dotnet build ./VulnerableApi.csproj --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ./src/VulnerableApi/VulnerableApi.csproj -c Release -o ./publish
+        run: dotnet publish ./VulnerableApi.csproj -c Release -o ./publish
 
       - name: Build Docker image
         run: docker build -t vulnerable-api:latest .
