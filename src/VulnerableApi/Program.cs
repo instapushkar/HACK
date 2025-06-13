@@ -4,14 +4,14 @@ using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ---- Intentional Security Risk ----
-// Hard‑coded secret. REMOVE ME!
-const string JwtSecret = "VerySecretKey123!"; 
+// Get JWT secret from configuration
+var jwtSecret = builder.Configuration["Jwt:Secret"] 
+    ?? throw new InvalidOperationException("JWT Secret not configured");
 
 builder.Services.AddControllers();
 
 var app = builder.Build();
 
-app.MapGet("/", () => new { status = "ok", secret = JwtSecret });
+app.MapGet("/", () => new { status = "ok" });
 
 app.Run();
