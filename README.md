@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # DevSecOps Hackathon (.NET) – Shift‑Left Security Sprint
 
 Welcome to the .NET edition of the 60‑minute DevSecOps challenge.
@@ -21,3 +22,6 @@ Welcome to the .NET edition of the 60‑minute DevSecOps challenge.
 * CI workflow lacks any security scanning.
 
 Happy hacking!
+=======
+# HACK
+>>>>>>> 6afe85fb02d8227b6d3b4625e382ae949b2f48f5
