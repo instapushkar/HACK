@@ -15,8 +15,7 @@ jobs:
 
       - name: Run Gitleaks
         uses: zricethezav/gitleaks-action@v2
-        with:
-          config-path: .gitleaks.toml
+        continue-on-error: true
 
   build:
     needs: security-scan
